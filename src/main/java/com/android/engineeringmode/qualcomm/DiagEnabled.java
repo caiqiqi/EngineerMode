@@ -61,7 +61,7 @@ public class DiagEnabled extends Activity implements OnClickListener, OnCheckedC
         this.mPrivilege.setVisibility(4);
         ((TextView) findViewById(2131493045)).setVisibility(4);
         this.mUsbManager = (UsbManager) getSystemService("usb");
-        if (getIntent() != null) {
+        if (getIntent() != null) { //得到从code这个intent extra中传来的数据
             escalatedUp(true, getIntent().getStringExtra("code"));
         }
         if (Feature.isSerialCdevSupported(this)) {
@@ -76,7 +76,7 @@ public class DiagEnabled extends Activity implements OnClickListener, OnCheckedC
         boolean isSelected = false;
         if (USB_CONFIG_PROPERTY.equals(ALLDIAG_USB_CONFIG)) {
             isSelected = true;
-            SystemProperties.set("persist.sys.diag.enable", "true");
+            SystemProperties.set("persist.sys.diag.enable", "true"); //android.os.SystemProperties设置系统属性的，可在命令行通过getprop 获得
         }
         Log.d("DiagEnabled", "USB_CONFIG_PROPERTY: " + USB_CONFIG_PROPERTY + "  sys.usb.config  isSeleceted: " + isSelected);
         this.mAllDiag.setChecked(isSelected);
@@ -269,6 +269,7 @@ public class DiagEnabled extends Activity implements OnClickListener, OnCheckedC
         }
     }
 
+/*弹出对话框的监听方法*/
     public void onClick(View v) {
         switch (v.getId()) {
             case 2131493046:
@@ -280,9 +281,9 @@ public class DiagEnabled extends Activity implements OnClickListener, OnCheckedC
                 showDialog(2435);
                 return;
             case 2131493481:
-                String key = this.mKeyField.getText().toString();
+                String key = this.mKeyField.getText().toString(); // 获取输入的密码
                 dismissDialog(2435);
-                if (escalatedUp(true, key)) {
+                if (escalatedUp(true, key)) { // 若成功，则显示 Success
                     Toast.makeText(this, 2131297175, 0).show();
                     return;
                 }
